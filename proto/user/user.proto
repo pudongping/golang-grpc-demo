@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+// 声明 user 包
+package user;
+// 指定包的路径以及包名
+option go_package = "proto/user;proto";
+
+// User 服务及服务接口的定义
+service User {
+  rpc UserIndex(UserIndexRequest) returns (UserIndexResponse) {}  // 用户列表
+  rpc UserView(UserViewRequest) returns (UserViewResponse) {}  // 查看单个用户
+  rpc UserPost(UserPostRequest) returns (UserPostResponse) {}  // 添加用户
+  rpc UserDelete(UserDeleteRequest) returns (UserDeleteResponse) {}  // 删除用户
+}
+
+// 枚举类型
+enum EnumUserSex {
+  SEX_INIT = 0; // 枚举类型必须以 0 起始
+  SEX_MALE = 1;
+  SEX_FEMALE = 2;
+}
+
+// 用户实体模型
+message UserEntity {
+  string name = 1;
+  int32 age = 2;
+}
+
+// User 服务的各个接口的请求/响应结构
+message UserIndexRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+message UserIndexResponse {
+  int32 code = 1;
+  string msg = 2;
+  // 返回一个 UserEntity 对象的列表数据
+  repeated UserEntity data = 3;
+}
+
+message UserViewRequest {
+  int32 uid = 1;
+}
+
+message UserViewResponse {
+  int32 code = 1;
+  string msg = 2;
+  // 返回一个 UserEntity 对象
+  UserEntity data = 3;
+}
+
+message UserPostRequest {
+  string name = 1;
+  string password = 2;
+  int32 age = 3;
+}
+
+message UserPostResponse {
+  int32 code = 1;
+  string msg = 2;
+}
+
+message UserDeleteRequest {
+  int32 uid = 1;
+}
+
+message UserDeleteResponse {
+  int32 code = 1;
+  string msg = 2;
+}
